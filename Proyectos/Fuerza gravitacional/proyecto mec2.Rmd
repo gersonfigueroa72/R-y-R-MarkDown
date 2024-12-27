@@ -1,0 +1,39 @@
+---
+title: "Proyecto mec2"
+author: "Gerson Figueroa"
+date: "6/4/2023"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Hallar lo puntos de Lagrange para el sistema Sol-Jupiter
+#librerias a utilizar:
+library(ggplot2)
+#Empezamos por definir nuestras variables
+ms=1.989*10^30 #masa del sol en kg
+mj=1.898e27 #masa de júpiter en kg
+mt=5.972e24 #masa de la tierra dada en kg
+a=7.78e11 #separacion entre ms y mj en metros
+G=6.67430e-11 #constante gravitacional
+#ya estamos en condiciones de definir la posicion de la tierra y
+#la posicion de jupiter en nuestro sistema O*
+xs=mj*a/(ms+mj) #posición del sol respecto a O*
+#print(xs)
+xj=-ms*a/(ms+mj) #posición de jupiter respecto a O*
+#print(xj)
+#Ahora debemos definir E_1,E_2
+E_1=xs/a
+E_2=xj/a
+
+```{r setup, include=FALSE}
+f <- function(x) {
+  mt*(mj+ms)*(G/a)*((E_2/abs((x-E_1)))-(E_1/abs((x-E_2)))-0.5*x^2)
+}
+x <- seq(-1, 1, by = 0.01)
+
+plot(x, f(x), type = "l", xlab = "x", ylab = "f(x)", main = "Función cuadrática")
+```
+

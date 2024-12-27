@@ -1,0 +1,337 @@
+---
+output: pdf_document
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+---
+<!-- NO MODIFICAR DESDE ACA -->
+\newcommand{\hoofding}[5]{
+\begin{flushleft}
+\includegraphics[height=2cm]{ecfmlogo.png}
+\end{flushleft}
+\vspace{-2.5cm}
+\hspace{2.5cm} 
+\parbox{12cm}{ #1\\#2\\#3\\#4\\#5} 
+
+{\parindent=0pt \hrulefill} 
+\vspace{1mm}}
+
+\newcommand{\encabezadorep}[9]{
+\begin{flushleft}
+\includegraphics[height=2cm]{ecfmlogo.png}
+\end{flushleft}
+\vspace{-2.7cm}
+\hspace{2.5cm} 
+\parbox{12cm}{ #1\\#2\\#3\\#4 \hspace{0.6cm} #5\\#6 \hspace{0.6cm} #7\\#8 \hspace{0.6cm} #9} 
+
+{\parindent=0pt \hrulefill} 
+\vspace{1mm}}
+
+\hoofding{ESCUELA DE CIENCIAS FISÍCAS Y MATEMÁTICAS}{LABORATORIO DE REDUCCIÓN DE DATOS}{ING. MAYNOR BALLINA}{LABORATORIO 2}{FECHA DE ENTREGA: 06/05/2022}
+<!-- HASTA ACA -->
+
+<!-- Incluir todas sus librerias aca -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tinytex)
+library(xtable)
+```
+
+
+\vspace{-1em}
+
+## **Instrucciones para el experimento **
+### **Definir el tamaño de la muestra **
+
+ 
+
+ 1. Defina el tamaño de las muestras a utilizar dependiendo del intervalo de confianza a utilizar y el error requerido.
+
+\begin{figure}
+  \centering
+  \includegraphics[height=3cm]{intervalo_confianza.jpg}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\caption{Calculo del tamaño de la muestra}
+\begin{tabular}{ccc}
+Error estadístico & Intervalo de confianza & n \\  \hline
+$20\%$ & $1 \sigma$ & \\
+$20\%$ & $2 \sigma$ & \\
+$20\%$ & $3 \sigma$ & \\
+$20\%$ & $4 \sigma$ & \\
+$20\%$ & $5 \sigma$ & \\
+$5\%$ & $1 \sigma$ & \\
+$5\%$ & $2 \sigma$ & \\
+$5\%$ & $3 \sigma$ & \\
+$5\%$ & $4 \sigma$ & \\
+$5\%$ & $5 \sigma$ & \\
+$1\%$ & $2 \sigma$ & \\
+$0.1\%$ & $2 \sigma$ & \\
+$0.01\%$ & $2 \sigma$ & \\
+$0.001\%$ & $2 \sigma$ & \\
+$0.0001\%$ & $2 \sigma$ & \\
+\hline
+\end{tabular}
+\end{table}
+
+ 2. Realice gráficos que le ayuden a determinar que elemento (IC, Error) hace que el tamaño de la muestra aumente mas.
+ 
+ 3. Desde su punto de vista describa que es mas importante, tener un error estadístico bastante pequeño o una significativa muy pequeña.
+ 
+ 4. El tamaño de muestra para su experimento es el obtenido para un intervalo de confianza de $5 \sigma$ y un error estadístico del $5\%$
+ 
+ TODAS ESTOS PUNTOS SE EXPLICARÁN EN LAS CONCLUSIONES.
+ 
+### **Procedimiento pendulo simple ** 
+
+ 1. Armar un sistema de péndulo debe crear un péndulo que mida un metro y una masa grande (se recomienda un péndulo hecho con un hilo, para que la masa del hilo sea despreciable, con una longitud de por lo menos metro y medio).
+ 2. Medir la longitud del péndulo, recuerde este es desde el punto de sujeción hasta el centro de masa del objeto.
+ 3. Coloque el péndulo a un ángulo no mayor de $5^o$, suelte, inicie a medir, con el cronometro, el periodo de oscilación de 10 oscilaciones consecutivas. (ojo el periodo es corto, por lo cual necesita un cronometro que mida centisegundo.)
+ 4. El valor del periodo promedio de las 10 oscilaciones esta dado por: $$T=\frac{t}{n}$$
+ 5. Realice el procedimiento anterior 100 veces para tener una muestra de 1000 oscilaciones.
+ 6. Realice un histograma de frecuencias de los datos obtenidos.
+ 7. Tomando en cuenta los resultados de la tabla realice el calculo del periodo promedio y su desviación estándar para cada intervalo de confianza, recuerde tomar en cuenta el tamaño de la muestra necesaria. Calcule el valor de la gravedad para cada intervalo de confianza. (recuerde que debe de utilizar propagación de error) Llene la siguiente tabla.
+ 
+\begin{table}[ht]
+\centering
+\caption{Calculo del la gravedad}
+\begin{tabular}{ccccccc}
+Error estadístico & IC & n & T & $\Delta$T & g & $\Delta$g \\  \hline
+$20\%$ & $1 \sigma$ & n1 & media1 & $\pm 0.01$ & g1 &\\
+$20\%$ & $2 \sigma$ & n2 & media2 & $\pm 0.03$ & g2 &\\
+$20\%$ & $3 \sigma$ & n3 & media3 & $\pm 0.06$ & g3 &\\
+$20\%$ & $4 \sigma$ & n4 & media4 & $\pm 0.010$ & g4 &\\
+$20\%$ & $5 \sigma$ & n5 & media5 & $\pm 0.016$ & g5 &\\
+$5\%$ & $1 \sigma$ & n6 & media6 & $\pm 0.01$& g6 &\\
+$5\%$ & $2 \sigma$ & n7 & media7 & $\pm 0.40$& g7 &\\
+$5\%$ & $3 \sigma$ & n8 & media8 & $\pm 0.90$& g8 &\\
+\hline
+\end{tabular}
+\end{table}
+  EN LOS RESULTADOS SE ENCUENTRAN DETALLADAMENTE
+  LOS DATOS SOLICITADOS EN LA TABLA.
+
+ 8. Con las muestras obtenidas, utilice bootstraping para generar las muestras para poder completar la siguiente tabla
+
+\begin{table}[ht]
+\centering
+\caption{Calculo del la gravedad con bootstraping}
+\begin{tabular}{ccccccc}
+Error estadístico & IC & n & T & $\Delta$T & g & $\Delta$g \\  \hline
+$5\%$ & $4 \sigma$ & \\
+$5\%$ & $5 \sigma$ & \\
+$1\%$ & $2 \sigma$ & \\
+\hline
+\end{tabular}
+\end{table}
+
+ 9. Realice una gráfica para ver el comportamiento de los valores de gravedad obtenidos.
+ 10. Realice una gráfica para ver el comportamiento de los residuos tomando en cuenta que el valor real de la gravedad es de  9,80665 $m/s^2$
+
+\newpage
+
+<!-- Ingrese sus datos en esta seccion -->
+
+\encabezadorep{ESCUELA DE CIENCIAS FISÍCAS Y MATEMÁTICAS}{LABORATORIO DE REDUCCIÓN DE DATOS}{LABORATORIO 2: INTERVALOS DE CONFIANZA Y ERROR}{NOMBRE: Gerson Figueroa}{CARNET: 202005839 }{NOMBRE: }{CARNET:}{}{}
+
+<!-- En caso tenga un integrante mas, llenar las ultimas llaves -->
+
+
+## **Resumen ** 
+El siguiente experimento aborda el calculo de la gravedad terrestre por medio de un pendulo simple y el despeje de una ecuación (la cual está en el anexo), la cual relaciona la gravedad con los datos empericos que se pueden medir en el experimento.
+Con estos datos se busca a grandes rasgos calcular los intervalos de confianza y error para los diferentes valores de sigma. 
+Además se analizan los datos estadisticamente para ver el comportamiento de los mismos.
+
+
+## **Objetivos **
+1. Calcular el valor de la gravedad terrestre.
+2. Armar un sistema de pendulo lo más exacto posible
+para tomar buenos datos.
+3. Calcular los intervalos de confianza
+4. Graficar el comportamiento de los datos.
+5.Describir si es más importante tener un error estadístico bastante pequeño o una significativa muy pequeña.
+
+## **Marco Teórico **
+1. Un intervalo de confianza es un rango de valores, derivado de los estadísticos de la muestra, que posiblemente incluya el valor de un parámetro de población desconocido. Debido a su naturaleza aleatoria, es poco probable que dos muestras de una población en particular produzcan intervalos de confianza idénticos. Sin embargo, si usted repitiera muchas veces su muestra, un determinado porcentaje de los intervalos de confianza resultantes incluiría el parámetro de población desconocido.
+Mientras mayor sea el margen de error, más ancho será el intervalo y menos seguro podrá estar usted del valor de la estimación de punto.
+2.La diferencia entre un estadístico de muestra y un valor hipotético es estadísticamente significativa si una prueba de hipótesis indica que es muy poco probable que la misma haya ocurrido en virtud de las probabilidades. Para evaluar la significancia estadística, examine el valor p de la prueba. Si el valor p está por debajo de un nivel de significancia (α) especificado (generalmente 0.10, 0.05 o 0.01), usted puede decir que la diferencia es estadísticamente significativa y rechazar la hipótesis nula de la prueba.La significancia estadística por sí sola no implica que los resultados tengan una consecuencia práctica. Si utiliza una prueba con una potencia muy alta, podría concluir que una pequeña diferencia con respecto al valor hipotético es estadísticamente significativa. Sin embargo, esa pequeña diferencia podría ser insignificante para su situación. Debe usar su conocimiento especializado para determinar si la diferencia es significativa desde el punto de vista práctico.
+3. La propagación de errores es un procedimiento por medio del cual, asignamos un error a los resultados obtenidos, tras la aplicación de una fórmula física; es decir aquellas medidas que obtenemos indirectamente, teniendo como entrada datos experimentales, los cuales siempre tienen un nivel de incertidumbre conocido.
+
+Desde la física se trabajan tres tipos de errores:
+
+Incertidumbre: son los ocasionados por la precisión del instrumento de medida.
+Sistemáticos: Es el que se genera por defectos en las mediciones, producto de errores en los instrumentos o en el encargado de realizar la medida.
+Estadísticos: Este error hace referencia en que tanto difiere una medida de un valor esperado.
+La asignación de errores de hace dependiendo del origen de la medida obtenida, si es una medida directa, indirecta o ponderada.
+
+## **Diseño Experimental **
+Para hacer el sistema del pendulo se utilizó un hilo enrollado (para mayor resistencia), de una longitud de un metro  y la masa fue una pelota esferica (para evitar en la mayor medida posible la resistencia del aire) de una masa de 1kg.
+El pendulo se instaló en un cuarto sin ventanas para evitar el aire y se alineo el extremo superior del pendulo a un transpotador para así medir los 5 a los cuales debia salir el pendulo.
+Los datos de tiempo fueron tomados con un cronometro de celular que mide el tiempo con una precision de milisegundos.
+
+## **Resultados **
+<!-- 40 pts Debe dejar constancia del codigo utilizado -->
+```{r, out.height="60%",out.width="60%",warning=FALSE,fig.align='center'}
+#Datos de los periodos de las 10 oscilaciones:
+T100=c(20.75,20.08,19.70,19.35,19.65,20.45,20.33,19.84,19.58,19.46,19.98,20.05,20.35,19.22,19.71,19.99,21.01,20.56,20.41,20.80,21.09,20.98,19.45,20.05,20.79,21.01,20.23,20.55,20.44,20.96,20.74,20.54,19.27,19.56,20.14,20.75,20.46,19.42,20.89,20.89,19.63,19.71,19.36,20.11,20.85,20.65,20.65,19.87,20.55,20.82,21.03,20.00,20.74,19.03,18.50,20.90,20.01,19.45,19.54,19.03,20.22,20.64,20.44,19.52,20.10,19.43,20.87,20.13,20.15,20.85,20.41,20.11,20.23,20.21,20.33,19.01,19.05,19.32,19.41,20.55,20.66,20.21,20.63,19.21,19.32,19.31,19.25,19.17,19.19,20.11,19.50,19.15,20.00,20.16,19.19,20.36,20.41,19.20,19.25,19.02)
+#Notar que cada valor que está dentro del vector T100
+#es el periodo de 100 oscilaciones.
+
+#Hacemos el histograma de los datos obtenidos:
+hist(T100, main = "Histograma de oscilaciones", ylab = "veces que se repite el dato", xlab = "Tiempo de las 10 oscilaciones")
+media=mean(T100)
+sd(T100)
+#Calculo de la gravedad:
+longitud=1
+g=4*pi^2*longitud/(media/10)^2;g
+#Calculo de la gravedad para cada intervalo de 
+#confianza
+#Para un error del 20% y un indice de confianza de
+#un sigma
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error1=20/100
+alfa.medios1 <- (100-sigma[1])/2/100;alfa.medios1
+alfa.medios1*2
+z1 <- qnorm(alfa.medios1, lower.tail = F);z1
+n1 <- ((z1*0.5)/error1)^2;n1
+media1=(T100[1])/1
+g1=4*pi^2*longitud/(media1/10)^2
+lim_inferior1=g1-(z1*error1);lim_inferior1
+lim_superior1=g1+(z1*error1);lim_superior1
+
+#Para un indice de confianza de dos sigmas:
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error2=20/100
+alfa.medios2 <- (100-sigma[2])/2/100;alfa.medios2
+alfa.medios2*2
+z2 <- qnorm(alfa.medios2, lower.tail = F);z2
+n2 <- ((z2*0.5)/error2)^2;n2
+media2=(T100[1]+T100[2]+T100[3])/3
+g2=4*pi^2*longitud/(media2/10)^2
+lim_inferior2=g2-(z2*error2);lim_inferior2
+lim_superior2=g2+(z2*error2);lim_superior2
+
+#Para un indice de confianza de tres sigmas:
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error3=20/100
+alfa.medios3 <- (100-sigma[3])/2/100;alfa.medios3
+alfa.medios3*2
+z3 <- qnorm(alfa.medios3, lower.tail = F);z3
+n3 <- ((z3*0.5)/error2)^2;n3
+media3=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6])/6
+g3=4*pi^2*longitud/(media3/10)^2
+lim_inferior3=g3-(z3*error3);lim_inferior3
+lim_superior3=g3+(z3*error3);lim_superior3
+
+#Para un indice de confianza de cuatro sigmas:
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error4=20/100
+alfa.medios4 <- (100-sigma[4])/2/100;alfa.medios4
+alfa.medios3*2
+z4 <- qnorm(alfa.medios4, lower.tail = F);z4
+n4 <- ((z4*0.5)/error2)^2;n4
+media4=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6]+T100[7]+T100[8]+T100[9]+T100[10])/10
+g4=4*pi^2*longitud/(media4/10)^2
+lim_inferior4=g4-(z3*error3);lim_inferior4
+lim_superior4=g4+(z3*error3);lim_superior4
+
+#Para un indice de confianza de cinco sigmas:
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error5=20/100
+alfa.medios5 <- (100-sigma[5])/2/100;alfa.medios5
+alfa.medios5*2
+z5 <- qnorm(alfa.medios5, lower.tail = F);z5
+n5 <- ((z5*0.5)/error2)^2;n5
+media5=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6]+T100[7]+T100[8]+T100[9]+T100[10]+T100[11]+T100[12]+T100[13]+T100[14]+T100[15]+T100[16])/16;media5
+g5=4*pi^2*longitud/(media5/10)^2
+lim_inferior5=g5-(z5*error5);lim_inferior5
+lim_superior5=g5+(z5*error5);lim_superior5
+
+#Para un indice de confianza de un sigma y 
+#5% de error
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error6=5/100
+alfa.medios6 <- (100-sigma[1])/2/100;alfa.medios6
+alfa.medios6*2
+z6 <- qnorm(alfa.medios6, lower.tail = F);z6
+n6 <- ((z6*0.5)/error6)^2;n6
+media6=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6]+T100[7]+T100[8]+T100[9]+T100[10])/10
+g6=4*pi^2*longitud/(media6/10)^2
+lim_inferior6=g6-(z6*error6);lim_inferior6
+lim_superior6=g6+(z6*error6);lim_superior6
+
+#Para un indice de confianza de dos sigmas y 
+#5% de error
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error7=5/100
+alfa.medios7 <- (100-sigma[2])/2/100;alfa.medios7
+alfa.medios7*2
+z7 <- qnorm(alfa.medios7, lower.tail = F);z7
+n7 <- ((z7*0.5)/error7)^2;n7
+media7=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6]+T100[7]+T100[8]+T100[9]+T100[10]+T100[11]+T100[12]+T100[13]+T100[14]+T100[15]+T100[16]+T100[17]+T100[18]+T100[19]+T100[20]+T100[21]+T100[22]+T100[23]+T100[24]+T100[25]+T100[26]+T100[27]+T100[28]+T100[29]+T100[30]+T100[31]+T100[32]+T100[33]+T100[34]+T100[35]+T100[36]+T100[37]+T100[38]+T100[39]+T100[40])/40
+g7=4*pi^2*longitud/(media7/10)^2
+lim_inferior7=g7-(z7*error7);lim_inferior7
+lim_superior7=g7+(z7*error7);lim_superior7
+
+#Para un indice de confianza de tres sigmas y 
+#5% de error
+
+sigma <- c(68.5,95.5,99.75,99.995,99.99995)
+error8=5/100
+alfa.medios8 <- (100-sigma[3])/2/100;alfa.medios8
+alfa.medios8*2
+z8 <- qnorm(alfa.medios8, lower.tail = F);z8
+n8 <- ((z8*0.5)/error7)^2;n8
+media8=(T100[1]+T100[2]+T100[3]+T100[4]+T100[5]+T100[6]+T100[7]+T100[8]+T100[9]+T100[10]+T100[11]+T100[12]+T100[13]+T100[14]+T100[15]+T100[16]+T100[17]+T100[18]+T100[19]+T100[20]+T100[21]+T100[22]+T100[23]+T100[24]+T100[25]+T100[26]+T100[27]+T100[28]+T100[29]+T100[30]+T100[31]+T100[32]+T100[33]+T100[34]+T100[35]+T100[36]+T100[37]+T100[38]+T100[39]+T100[40]+T100[41]+T100[42]+T100[43]+T100[44]+T100[45]+T100[46]+T100[47]+T100[48]+T100[49]+T100[50]+T100[51]+T100[52]+T100[53]+T100[54]+T100[55]+T100[56]+T100[57]+T100[58]+T100[59]+T100[60]+T100[61]+T100[62]+T100[63]+T100[64]+T100[65]+T100[66]+T100[67]+T100[68]+T100[69]+T100[70]+T100[71]+T100[72]+T100[73]+T100[74]+T100[75]+T100[76]+T100[77]+T100[78]+T100[79]+T100[80]+T100[81]+T100[82]+T100[83]+T100[84]+T100[85]+T100[86]+T100[87]+T100[88]+T100[89]+T100[90])/90
+g8=4*pi^2*longitud/(media8/10)^2
+lim_inferior8=g8-(z8*error8);lim_inferior8
+lim_superior8=g8+(z8*error8);lim_superior8
+
+#Calculo de la gravedad con Bootstraping
+
+#Tomamos una muestra aleatoria de los valores del periodo de 
+#oscilación de la gravedad
+
+error=5/100
+sample(T100, replace = TRUE)
+
+
+
+
+#Grafica de los valores de la gravedad obtenidos:
+totg=c(g1,g2,g3,g4,g5,g6,g7,g8)
+plot(totg)
+
+```
+
+## **Discusión de resultados **
+1. Podemos darnos cuenta que experimentalmente se hizo un buen trabajo ya que el valor experimental de la gravedad que conseguimos con el analisis estadistico es muy cercano al original.
+2.Podemos notar que mientras más grande es el numero de datos que utilizamos para hallar la media del periodo de oscilación, mejor será la estimación de la gravedad.
+3. Del histograma podemos notar que los datos no varian tanto y se mantienen en un rango de variacón aceptable.
+4.Mientras mayor sea el intervalo de confianza mayor será el n y por lo tanto mejor estimación tendremos sobre la gravedad terrestre.
+
+## **Conclusiones **
+1. El margen de error en el calculo de la gravedad es insignificante por lo cual podemos concluir que los datos se apegan a la gravedad terrestre.
+2.El pendulo mostró un buen resultado en el area experimental y las mediciones de tiempo fueron exactas.
+3.Para 5 sigmas de intervalo de confianza y un error estadistico de 5% obtuvimos la mejor estimación del valor real de la gravedad terrestre.
+4. Empiricamente podemos argumentar que lo mejorm para un experimento es tener un error estadistico pequeño, ya que este nos dará mayor certeza en los calculos y en el analisis estadistico; a diferencia del valor de la significancia, el cual simplemente es un valor que elegimos.
+## **Bibliográfica **
+1) An Introduction to Error Analysis 2nd Edition
+2) data reduction and error analysis for the physical sciences
+3)A Primer on Scientific Programming with Python
+
+## **Anexos **
+La formula para calcular la gravedad usando los datos del pendulo simple es:
+$$g=\frac{4\pi^2L}{T^2}$$
+1 sigma = 68.5%
+2 sigma = 95.5%
+3 sigma = 99.75%
+4 sigma = 99.995%
+5 sigma = 99.99995%

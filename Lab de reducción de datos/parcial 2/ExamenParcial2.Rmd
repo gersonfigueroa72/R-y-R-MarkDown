@@ -1,0 +1,226 @@
+---
+output: pdf_document
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+---
+<!-- NO MODIFICAR DESDE ACA -->
+\newcommand{\hoofding}[5]{
+\begin{flushleft}
+\includegraphics[height=2cm]{ecfmlogo.png}
+\end{flushleft}
+\vspace{-2.5cm}
+\hspace{2.5cm} 
+\parbox{12cm}{ #1\\#2\\#3\\#4\\#5} 
+
+{\parindent=0pt \hrulefill} 
+\vspace{1mm}}
+
+\newcommand{\encabezadorep}[9]{
+\begin{flushleft}
+\includegraphics[height=2cm]{ecfmlogo.png}
+\end{flushleft}
+\vspace{-2.7cm}
+\hspace{2.5cm} 
+\parbox{12cm}{ #1\\#2\\#3\\#4 \hspace{0.6cm} #5\\#6 \hspace{0.6cm} #7\\#8 \hspace{0.6cm} #9} 
+
+{\parindent=0pt \hrulefill} 
+\vspace{1mm}}
+
+\hoofding{ESCUELA DE CIENCIAS FISÍCAS Y MATEMÁTICAS}{LABORATORIO DE REDUCCIÓN DE DATOS}{ING. MAYNOR BALLINA}{EXAMEN PARCIAL 2}{FECHA DE ENTREGA: 03/05/2022}
+<!-- HASTA ACA -->
+
+<!-- Incluir todas sus librerias aca -->
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+
+\vspace{-1em}
+
+## **Instrucciones **
+
+ - Los problemas propuestos deben de presentarse por medio de un documento PDF.
+ - El documento del estudiante debe de contener esta pagina e inicia desde la pagina dos.
+ - Cada resolución del problema se debe de explicar de la manera mas detallada posible.
+ - En caso no pueda solucionar el problema, explique hasta el punto donde ya no pueda resolverlo.
+
+## **Elementos que les pueden servir **
+
+ - La tabla ayuda a definir el problema y decidir que tipo de prueba utilizar.
+ 
+ \begin{figure}
+  \centering
+  \includegraphics[height=12cm]{pruebas_medias.jpg}
+\end{figure}
+
+
+\newpage
+
+<!-- Ingrese sus datos en esta seccion -->
+
+\encabezadorep{ESCUELA DE CIENCIAS FISÍCAS Y MATEMÁTICAS}{LABORATORIO DE REDUCCIÓN DE DATOS}{EXAMEN PARCIAL 2}{NOMBRE: }{CARNET: }{NOMBRE: }{CARNET:}{}{}
+
+<!-- En caso tenga un integrante mas, llenar las ultimas llaves -->
+
+
+### 1. En un laboratorio de mecanica clasica, varios estudiantes realizan el experimento del movimiento oscilatorio amortiguado, utilizando una maza de 2 Kg conectada al resorte, dado a que se asume que todos los resortes tienen la misma constante de hook k=20 N/m, pruebe la hipotesis de que la distancia maxima  promedio es de 10 cm. De los 50 grupos de estudiantes se toma una muestra aleatoria de 10 grupos cuyos resultados fueron: 10.2, 9.7, 10.1, 10.3, 10.1, 9.8, 9.9, 10.4, 10.3, 9.8. Usted como experimentador le intereza tener un nivel de significancia del 0.01 para comprobar su experimento. Por ultimo realice una grafica de la distribucion y con una linea en el punto de su nivel de significancia, en la media propuesta y en la media experimental, trate de identificar su region critica de alguna manera. 
+<!-- 25 pts -->
+
+```{r, out.height="60%",out.width="60%",warning=FALSE,fig.align='center'}
+
+#ingrese su codigo aca
+#H_0=Distancia máxima es igual a 10
+#H_a=La distancia máxima no es igual a 10
+#alpha=0.01
+#n=10
+datos1=c(10.2,9.7,10.1,10.3,10.1,9.8,9.9,10.4,10.3,9.8)
+mean(datos1)
+t.test(datos1, alternative = "two.sided", mu=10, conf.level = 0.99)
+#Entonces la hipotesis de que la media maxima es 10 se sustenta.
+#Ahora debemos graficar nuestra distribucion normal
+x=seq(9,11,0.01)
+ds1=sd(datos1)
+y=dnorm(x,mean = 10,ds1 );y
+plot(x,y, type = "l")
+abline(v=10, col="blue"); abline(v=mean(datos1))
+abline(v=10.52, col="red");abline(v=9.48,col="red")
+?abline
+#Sabemos que el nivel de significancia es de
+#alpha=0.01, esto al ser de dos colas entonces de
+#cada lados tendremos alpha/2, ubicando estos
+#valores en nuestra tabla de probabilidad de una
+#distribución normal
+#Lineas rojas: delimitan el area crítica
+#Linea azul: media propuesta
+#Linez negra: media poblacional
+```
+
+### 2. Una fuente radiactiva que emite en promerio mas de 20,000 particulas en una ventana temporal de medición en un experimento. Si se utiliza un detector de radiación basado en germanio hiperpuro, para realizar 100 corridas del experimento asumiendo que el conteo es un muestreo aleatorio. Con un nivel de significancia del 0.XY, estaria usted de acuerdo con la primera afirmación si el promedio de las particulas detectadas fue de 23,500 con una desviación estandar de 3900 particulas. Por ultimo dealice una grafica de la distribucion y con una linea en el punto de su nivel de significancia, en la media propuesta y en la media experimental, trate de identificar su region critica de alguna manera. (Donde XY son los ultimos numeros de carnet de cada integrante, en caso de 00 utilice 01)
+<!-- 25 pts -->
+
+```{r, out.height="60%",out.width="60%",warning=FALSE,fig.align='center'}
+
+#Hipotesis nula: Una fuente radiactiva emite en
+#promedio 20,000 particulas.
+#Hipotesis alterna:Una fuente radiactiva emite en
+#promedio mas de 20,000 particulas.
+#alpha=0.39
+#n=100 (muestra poblacional)
+#sigma=3900
+#media teorica=20,000
+#media poblacional=23,500
+#Usamos el estadistico de prueba z ya que hay mas de 30 valores ya ademas conocemos la desviacion estandard
+z=(20000-23500)*10/3900;z
+#calculamos el punto donde deberia estár nuestro nivel de significancia
+qt(0.39,df=99,lower.tail = F)
+#graficamos
+x1=seq(5000,35000,100)
+y1=dnorm(x1,mean = 20000,3900 );y
+plot(x1,y1, type = "l")
+abline(v=20000, col="blue"); abline(v=23500)
+abline(v=0.28, col="red")
+#Dado que el pvalor está afuera de la zona de
+#aceptación podemos rechazar la hipotesis nula, por
+#lo tanto la fuente radiactiva emite en promedio mas de 20,000 particulas
+
+```
+
+### 3. Para determinar la efectividad de una fabrica constructora de resistencias, se mide el valor de la resistencia de 42 resistencias de forma aleatoria de un lote de 1000. El fabricante da un nivel de tolerancia, si asuminos que los datos se distribuyen en una distribucion de probabilidad normal. Realice la prueba de normalidad por medio de bondad de ajuste y compare con la prueba de shapiro-wilks. Por ultimo dealice un histograma de los datos y sobreponga la grafica de la dsitribución de probabilidad.
+<!-- 25 pts -->
+\begin{table}[ht]
+\centering
+\caption{Resistencias de $0.84 K \Omega$ medidas}
+\begin{tabular}{lclclclc}
+n & R $[ K \Omega ]$ & n & R $[ K \Omega ]$ & n & R $[ K \Omega ]$ & n & R $[ K \Omega ]$ \\  \hline
+ 1 & 0.79 & 12 & 0.86 & 23 & 0.80 & 34 & 0.88 \\
+ 2 & 0.78 & 13 & 0.86 & 24 & 0.84 & 35 & 0.84 \\
+ 3 & 0.80 & 14 & 0.85 & 25 & 0.83 & 36 & 0.85 \\
+ 4 & 0.82 & 15 & 0.84 & 26 & 0.83 & 37 & 0.88 \\
+ 5 & 0.82 & 16 & 0.85 & 27 & 0.83 & 38 & 0.82 \\
+ 6 & 0.83 & 17 & 0.83 & 28 & 0.84 & 39 & 0.82 \\
+ 7 & 0.84 & 18 & 0.84 & 29 & 0.86 & 40 & 0.87 \\
+ 8 & 0.84 & 19 & 0.83 & 30 & 0.86 & 41 & 0.85 \\
+ 9 & 0.85 & 20 & 0.84 & 31 & 0.86 & 42 & 0.9 \\
+10 & 0.85 & 21 & 0.81 & 32 & 0.84 & &\\
+11 & 0.85 & 22 & 0.81 & 33 & 0.85 & &\\
+\hline
+\end{tabular}
+\end{table}
+
+```{r, out.height="60%",out.width="60%",warning=FALSE,fig.align='center'}
+
+datos3=c(0.79,0.78,0.80,0.82,0.82,0.83,0.84,0.84,0.85,0.85,0.85,0.86,0.86,0.85,0.84,0.85,0.83,0.84,0.81,0.81,0.80,0.84,0.83,0.83,0.83,0.84,0.86,0.86,0.86,0.84,0.85,0.88,0.84,0.85,0.88,0.82,0.82,0.87,0.85,0.9)
+#Hacemos un histograma solo para darnos una idea de
+#la distrubución de los datos
+hist(datos3)
+#Bondad de ajuste
+bondad=chisq.test(datos3);bondad
+#como nuestro p-valor es mucho mayor a alpha entonces no hay evidencia suficiente para descartar la hipotesis de que la poblacion de resistencias siguen una distribución normal
+
+#test de Shapiro con \alpha=0.05
+shapiro.test(datos3)
+#como el p-valor es mucho mayor que alpha entonces
+#notenemos la evidencia suficiente para descartar la
+#hipotesis de que la poblacion de resistencias
+#siguen una distribución normal
+
+#COMPARANDO AMBOS RESULTADOS DE LOS TEST, NOS DICEN
+#QUE NO PODEMOS DESCARTAR LA HIPOTESIS QUE LOS DATOS
+#SIGAN UNA DISTRIBUCION NORMAL.
+#Ahora hacemos la gráfica de los datos.
+hist(datos3, freq = F)
+curve(dnorm(x,mean(datos3),sd(datos3)),add = T,col="red")
+
+
+```
+
+### 4. Debe de realizar la simulación del tiempo del decaimiento del vuelo de los muones, los cuales cuentan con una vida media de $\tau = 2.2 \mu s$. Este decaimiento esta dado por:
+$$f(t) = \frac{1}{\tau} exp(- \frac{t}{\tau})$$
+
+$$t = - \tau ln(1-r)$$
+
+#### donde r depende de una funcion de probabilidad uniforme $0 \leq r \leq 1$. Realice una simulación montecarlo para 10, 100, 1000, 10000, 100000, 1000000 partículas en el experimento. Por cada grupo de datos obtenga un histograma de frecuencias y un resumen estadistico. Analizar la media y la desvición estándar de cada grupo de particulas. Concluir sobre los resultados obtenidos
+
+<!-- 25 pts -->
+```{r, out.height="60%",out.width="60%",warning=FALSE,fig.align='center'}
+#Simulacion para 10 particulas:
+n=10
+tao=2.2
+r=runif(n,min=0,max=1)
+t=-(tao)*log(1-r)
+simulacion=(1/tao)*exp(-(t/tao)); simulacion
+hist(simulacion)
+
+#Simulacion para 100 particulas:
+n2=100
+tao=2.2
+r=runif(n2,min=0,max=1)
+t=-(tao)*log(1-r)
+simulacion2=(1/tao)*exp(-(t/tao)); simulacion
+hist(simulacion2)
+
+#Simulacion para 1000 particulas:
+n3=1000
+tao=2.2
+r=runif(n3,min=0,max=1)
+t=-(tao)*log(1-r)
+simulacion3=(1/tao)*exp(-(t/tao)); simulacion
+hist(simulacion3)
+
+#Simulacion para 10000 particulas:
+n4=10000
+tao=2.2
+r=runif(n4,min=0,max=1)
+t=-(tao)*log(1-r)
+simulacion4=(1/tao)*exp(-(t/tao)); simulacion
+hist(simulacion4)
+
+#Simulacion para 100000 particulas:
+n5=100000
+tao=2.2
+r=runif(n5,min=0,max=1)
+t=-(tao)*log(1-r)
+simulacion5=(1/tao)*exp(-(t/tao)); simulacion
+hist(simulacion5)
+
+```
